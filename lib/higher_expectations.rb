@@ -17,10 +17,10 @@ require 'instance_methods'
 module HigherExpectations
   VERSION = '0.1.0'
 
-  # Should be called at method entrance
-  # instead of spaming up entire Object class method space, extend each given object with expectation methods
+  # Should be called at method entrance, extends each given object with expectation methods
   def has_expectations(*objects)
     objects.map do |obj|
+      #next if obj.respond_to?(:raise_ae)  # skip objects that have already instance methods
       begin
         obj.extend(HigherExpectations::InstanceMethods)
       # TypeErrors are generated when trying to extend Numeric objects, which are not and cannot be singeltons and hence cannot get new methods.  

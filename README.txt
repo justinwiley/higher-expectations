@@ -58,22 +58,27 @@ end
 
 But writing this sort of code is slow and error prone.  Wouldn't you like to do this instead?
 
-include HigherExpectations  # somewhere in the class
-def calc_sunrise(day, month)
-    has_expectations(day, month)    # attach expectation methods to each object
-    day.must_be(Numeric)            # day must be numeric or an exception will be raise
-    day.must_be_in_range(1..31)     # day must be in range or exception
-    month.must_be(Numeric).and_must_be_in_range(1..31)  # a neat combination of both
-    month.must_be_nil rescue nil                        # since it raises an exception, its trappable, allowing for more flexible handling
-  ...sunrise calc
+require 'higher_expectations'
+class PlanetCalculations
+  include HigherExpectations
+  def calc_sunrise(day, month)
+      has_expectations(day, month)    # attach expectation methods to each object
+      day.must_be_an(Integer)          # day must kind_of? Integer or an exception will be raised
+      day.must_be_in_range(1..31)     # day must be in the given range or exception
+      # a neat combination of both
+      month.must_be_an(Integer).and_must_be_in_range(1..31)
+      # since it raises an exception, its trappable, allowing for more flexible handling
+      month.must_be_nil rescue ArgumentError nil
+    ...sunrise calc
+  end
 end
 
 ...without comments:
 
 def calc_sunrise(day,month)
   has_expectations(day,month)
-  day.must_be(Numeric).and_must_be_in_range(1..31)
-  month.must_be(Numeric).and_must_be_in_range(1..31
+  day.must_be_a(Integer).and_must_be_in_range(1..31)
+  month.must_be_a(Integer).and_must_be_in_range(1..31
   ...sunrise calc...
 end
 
@@ -135,7 +140,14 @@ InstanceMethods#must_respond_to and must_not_respond_to a given method
 
 == INSTALL:
 
-* sudo gem install higher-expectations
+* To build and install the gem from withing higher_expectations directory:
+  
+  rake local_deploy
+  
+* To build and install the gem independantly
+  
+  rake package
+  sudo gem install higher_expectations  (where x is version)
 
 == LICENSE:
 

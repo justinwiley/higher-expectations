@@ -5,8 +5,8 @@ class Universe
   include HigherExpectations
   def spin(direction, velocity)
     has_expectations(direction, velocity)
-    direction.must_not_be_nil
-    velocity.must_be_a(SuperFloat).and_must_respond_to(:vector7)
+    direction.must_be_an(Integer).and_must_not_be_nil
+    velocity.must_be_a(SuperFloat).and_must_not_be_an(Integer).and_must_respond_to(:vector7)
   end
 end
 class SuperFloat; def vector7; end; end;

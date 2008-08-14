@@ -1,3 +1,7 @@
+== 0.0.2 2008-08-15
+
+* Cleans up documentation, provides must_be_an syntax sugar, buildable gem
+
 == 0.0.1 2008-08-14
 
 * 1 major enhancement:

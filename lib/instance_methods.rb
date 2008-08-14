@@ -45,7 +45,9 @@ module HigherExpectations
       end
       self
     end
-    alias :and_must_be_a :must_be_a
+    alias :must_be_an :must_be_a
+
+
     
     # value(s)  must not be in a specific class or set of klasses
     def must_not_be_a(*klasses)
@@ -54,7 +56,9 @@ module HigherExpectations
       end
       self
     end
+    alias :must_not_be_an :must_not_be_a
     alias :and_must_not_be_a :must_not_be_a
+    alias :and_must_not_be_an :must_not_be_a
 
     # value(s)  must be in a specific numeric range
     def must_be_in_range(range)

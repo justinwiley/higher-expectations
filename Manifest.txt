@@ -7,7 +7,7 @@ config/hoe.rb
 config/requirements.rb
 lib/higher_expectations.rb
 lib/instance_methods.rb
-lib/version.rb
+lib/higher_expectations/version.rb
 script/console
 script/console.cmd
 script/destroy
