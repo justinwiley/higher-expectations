@@ -1,3 +1,8 @@
+##
+#
+#  instance_methods.rb
+#  Copyright 2008 Justin Tyler Wiley - see license for details
+#
 module HigherExpectations
   module InstanceMethods
     # must_X functions raise the traditional "ArgumentException", this exception is for programic errors when using HigherExpectations

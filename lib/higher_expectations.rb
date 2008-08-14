@@ -3,17 +3,16 @@ require 'rubygems'
 require 'instance_methods'
 
 ##
+#
+#  higher_expectations.rb
+#  Copyright 2008 Justin Tyler Wiley - see license for details
+#
 #  Higher expectations module
 #  Provides method to load instance methods in a group of arguments
 #  Requires instance methods
 #
 #  Usage:
-#
-#  class Something
-#    include HigherExpectations
-#  end
-#  ..or optionally inject into Object (not recommended)
-#
+#  ...see readme
 module HigherExpectations
   VERSION = '0.1.0'
 
