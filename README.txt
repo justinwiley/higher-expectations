@@ -33,13 +33,13 @@ end
 
 == SYNOPSIS:
 
-Imagine you have a method to calculate sunrise buried within a 1D planet simulator codebase.  Throughout the codebase, validations are used to check data input, and there is a well thought-out and well written test suite.
+Imagine you have a method to calculate sunrise buried within a 1D planet simulator codebase.  Throughout the codebase, validations are used to check data input, and there is a well thoughtout and well written test suite.
 
   def calc_sunrise(day, month)
     sunrise = (day - 50000)/month   # arbitrary calculation that assumes day is a number and not negative
   end
 
-However, Joey your coworker hacks and calls the following function:
+However, Joey your coworker hacks away and calls the following function:
 
   PlanetEarth.sunrise = calc_sunrise(-5, 1)
 
