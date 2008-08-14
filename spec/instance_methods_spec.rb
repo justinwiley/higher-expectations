@@ -6,7 +6,7 @@ end
 #
 # Todo: a clever implementation that DRYs up the below, while leaving it readable and producing a decent specdoc
 #
-describe "InstanceMethods" do
+describe "HigherExpectation::InstanceMethods" do
   include HigherExpectations
   before(:each) do
     @number = 1

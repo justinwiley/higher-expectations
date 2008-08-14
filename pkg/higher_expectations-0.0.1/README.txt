@@ -1,52 +1,51 @@
 = higher_expectations
 
-* http://higher_expectations.rubyforge
+* http://higher-expect.rubyforge.org
 
 == DESCRIPTION:
 
 Provides an easy and quick way to make sure method arguments are what you expect them to be.
 
-You want to make sure that methods explode if they are given inappropriate inputs, but you don't want to deal with a complete design-by-contract implementation like RDBC.  Before you fire up the flame tank please note that I completely agree that this is nothing like a formal design-by-contract in any number of important ways.  It provides something -like- the "obligations" component of DBC.
+You want to make sure that methods explode if they are given inappropriate inputs, but you don't want to deal with a complete design-by-contract implementation like RDBC.  Please note that this is nothing like a formal design-by-contract in any number of important ways.  It provides something -like- the "obligations" component of DBC.
 
-So you are tired or writing stuff like:
+Writing explicit exception checking is tiring, redundant and error prone:
 
 def calc_sunrise(day, month, year, latitude, longitude, planet)
   raise Exception.new("day should be numeric and in the range of 1-32) unless day.kind_of?(Numeric) && day > 0 && day < 32
-  ...etc. etc. for year, latitude, longitude, planet...
+  ...etc. etc. ...
 end
 
-and you would rather write
+Higher expectations provides an easy and human readable alternative:
 
-def calc_sunrise(day, month)
+def calc_sunrise(day, month, year)
   has_expectations(day, month)
   day.must_not_be(Numeric).and_must_be_in_range(0..5)
   month.must_be(Numeric)
-  ...do other important stuff below...
+  ...do other critical work below...
 end
 
 == FEATURES/PROBLEMS:
 
-* provides a set of usefull methods for determining what an object is at runtime, and raising an exception
-* avoids creating these methods in Object directly, and instead extends the objects passed in (although it does add them directly to Numeric due to constraints in Ruby's Numeric implementation)
-* allows for method changing and provides a dose of syntactic sugar
+* Please note that this is alpha software
+* Provides a set of usefull methods for determining what an object is at runtime, and raising an exception
+* Avoids creating these methods in Object directly, and instead extends the objects passed in (although it does add them directly to Numeric due to constraints in Ruby's Numeric implementation)
+* Allows for method chaining to provide a dose of syntactic sugar
 
 == SYNOPSIS:
 
-Imagine you have a method buried deep within your wicked 1D planet simulator codebase.  Said codebase uses parameters passed in through the web and validated at various levels, but that doesn't necessarily mean that that particular method will be called with a sane value.  
+Imagine you have a method to calculate sunrise buried within a 1D planet simulator codebase.  Throughout the codebase, validations are used to check data input, and there is a well thought-out and well written test suite.
 
-For example:
+  def calc_sunrise(day, month)
+    sunrise = (day - 50000)/month   # arbitrary calculation that assumes day is a number and not negative
+  end
 
-def calc_sunrise(day, month)
-  sunrise = (day - 50000)/month   # some arbitrary calculation that assumes day is a number and not negative
-end
+However, Joey your coworker hacks and calls the following function:
 
-Joey your coworker hacks away and calls the method thusly:
+  PlanetEarth.sunrise = calc_sunrise(-5, 1)
 
-PlanetEarth.sunrise = calc_sunrise(-5, 1)
+Code executes, no exceptions are raised, but earths sunrise changes to a weird value.  No amount of unit testing, specing, validating outside the model would have stopped Joey from making this hambone maneuver.
 
-Code executes, but earths sunrise changes to a weird value.  Hell freezes over, breaking the deeply subtly continuity of your whole world.  No amount of unit testing, specing, validating outside the model would have stopped Joey from making this hambone maneuver.
-
-Now you could have said something like:
+Checking the arguments within the method would have prevented this:
 
 def calc_sunrise(day, month)
   raise ArgumentError.new("day must be numeric") unless day.kind_of?(Numeric)
@@ -57,7 +56,7 @@ def calc_sunrise(day, month)
   ...sunrise calc...
 end
 
-Drudgery, duplication, error prone, etc. etc.  Wouldn't you like to do this instead?
+But writing this sort of code is slow and error prone.  Wouldn't you like to do this instead?
 
 include HigherExpectations  # somewhere in the class
 def calc_sunrise(day, month)
@@ -69,12 +68,12 @@ def calc_sunrise(day, month)
   ...sunrise calc
 end
 
-...or even cleaner.
+...without comments:
 
 def calc_sunrise(day,month)
   has_expectations(day,month)
-  *args.map{|a| a.must_be(Numeric).and_must_be_in_range(1..31)}
-  month.must_be_nil
+  day.must_be(Numeric).and_must_be_in_range(1..31)
+  month.must_be(Numeric).and_must_be_in_range(1..31
   ...sunrise calc...
 end
 
